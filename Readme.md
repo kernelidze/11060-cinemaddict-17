@@ -1,7 +1,7 @@
 # Проект «Киноман»
 
-* Студент: [Андрей Петренко](https://up.htmlacademy.ru/ecmascript/17/user/11060).
-* Наставник: `Неизвестно`.
+* Студент: [Андрей Петренко](https://htmlacademy.ru/profile/id11060).
+* Наставник: [Артём Рудов](https://htmlacademy.ru/profile/artrudov).
 
 ---
 
