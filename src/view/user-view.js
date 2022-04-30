@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import {createElement} from 'Utils';
 
 const createUserTemplate = () => (
   `<section class="header__profile profile">

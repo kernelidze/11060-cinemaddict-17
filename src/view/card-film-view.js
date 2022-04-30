@@ -1,4 +1,4 @@
-import {createElement} from '../render.js';
+import {createElement} from 'Utils';
 
 const createCardFilmTemplate = () => (
   `<article class="film-card">
