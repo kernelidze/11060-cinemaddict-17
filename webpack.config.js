@@ -22,5 +22,12 @@ module.exports = {
           use: ['babel-loader']
         }
     ]
-  }
+  },
+  resolve: {
+    alias: {
+      Views: path.resolve(__dirname, 'src/view/'),
+      Presenters: path.resolve(__dirname, 'src/presenter/'),
+      Utils: path.resolve(__dirname, 'src/utils/'),
+    },
+  },
 };
