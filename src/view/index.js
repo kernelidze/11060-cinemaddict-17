@@ -11,5 +11,18 @@ import FilmsListContainerView from 'Views/films-list-container-view.js';
 import FilmView from 'Views/film-view.js';
 import CommentView from 'Views/comment-view.js';
 
-export {ShowMoreButtonView, SortView, NavigationView, UserView, PopupView, FilmsMainSectionView, FilmsListSectionView, FilmsListContainerView, FilmsListSectionMostCommentedView, FilmsListSectionTopRatedView, FilmView, CommentView};
+export {
+  ShowMoreButtonView,
+  SortView,
+  NavigationView,
+  UserView,
+  PopupView,
+  FilmsMainSectionView,
+  FilmsListSectionView,
+  FilmsListContainerView,
+  FilmsListSectionMostCommentedView,
+  FilmsListSectionTopRatedView,
+  FilmView,
+  CommentView
+};
 
