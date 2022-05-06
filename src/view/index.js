@@ -8,7 +8,8 @@ import FilmsListSectionView from 'Views/films-list-section-view.js';
 import FilmsListSectionTopRatedView from 'Views/films-list-section-top-view.js';
 import FilmsListSectionMostCommentedView from 'Views/films-list-section-comment-view.js';
 import FilmsListContainerView from 'Views/films-list-container-view.js';
-import CardFilmView from 'Views/card-film-view.js';
+import FilmView from 'Views/film-view.js';
+import CommentView from 'Views/comment-view.js';
 
-export {ShowMoreButtonView, SortView, NavigationView, UserView, PopupView, FilmsMainSectionView, FilmsListSectionView, FilmsListContainerView, FilmsListSectionMostCommentedView, FilmsListSectionTopRatedView, CardFilmView};
+export {ShowMoreButtonView, SortView, NavigationView, UserView, PopupView, FilmsMainSectionView, FilmsListSectionView, FilmsListContainerView, FilmsListSectionMostCommentedView, FilmsListSectionTopRatedView, FilmView, CommentView};
 
