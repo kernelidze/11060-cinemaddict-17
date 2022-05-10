@@ -1,9 +1,45 @@
 import {createElement} from 'Utils';
-import dayjs from 'dayjs';
 
-const createPopupTemplate = (film) => {
-  const {description, title, rating, poster, release, duration, genre, comments, watchlist, alreadyWatched, favorite} = film;
-  const date = dayjs(release).format('D MMMM YYYY');
+const createPopupTemplate = (film, allComments) => {
+  const {
+    comments,
+    filmInfo: {
+      title,
+      totalRating,
+      poster,
+      release: { date },
+      runtime,
+      genre,
+      description
+    },
+    userDetails: {
+      watchlist,
+      alreadyWatched,
+      favorite
+    }
+  } = film;
+
+  const selectedComments = allComments.filter(({id}) => comments.some((commentId) => commentId === Number(id)));
+
+  const commentsList = selectedComments.map((comment) => (`
+    <li class="film-details__comment">
+      <span class="film-details__comment-emoji">
+        <img src="./images/emoji/${comment.emotion}.png" width="55" height="55" alt="emoji-smile">
+      </span>
+      <div>
+        <p class="film-details__comment-text">${comment.comment}</p>
+        <p class="film-details__comment-info">
+          <span class="film-details__comment-author">${comment.author}</span>
+          <span class="film-details__comment-day">${comment.date}</span>
+          <button class="film-details__comment-delete">Delete</button>
+        </p>
+      </div>
+    </li>`
+  )).join('');
+
+  const genresList = genre.map((el) => (`
+    <span class="film-details__genre">${el}</span>`
+  )).join('');
 
   const watchedClassName = alreadyWatched
     ? 'film-details__control-button--active'
@@ -39,7 +75,7 @@ const createPopupTemplate = (film) => {
               </div>
 
               <div class="film-details__rating">
-                <p class="film-details__total-rating">${rating}</p>
+                <p class="film-details__total-rating">${totalRating}</p>
               </div>
             </div>
 
@@ -62,7 +98,7 @@ const createPopupTemplate = (film) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">${duration}</td>
+                <td class="film-details__cell">${runtime}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>
@@ -71,7 +107,7 @@ const createPopupTemplate = (film) => {
               <tr class="film-details__row">
                 <td class="film-details__term">Genres</td>
                 <td class="film-details__cell">
-                  ${genre.map((genr) => `<span class="film-details__genre">${genr}</span>`).join('')}
+                  ${genresList}
               </tr>
             </table>
 
@@ -88,10 +124,10 @@ const createPopupTemplate = (film) => {
 
       <div class="film-details__bottom-container">
         <section class="film-details__comments-wrap">
-          <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.randomCommentaryCount}</span></h3>
+          <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${selectedComments.length}</span></h3>
 
           <ul class="film-details__comments-list">
-
+            ${commentsList}
           </ul>
 
           <div class="film-details__new-comment">
@@ -131,23 +167,28 @@ const createPopupTemplate = (film) => {
 };
 
 export default class PopupView {
-  constructor(film) {
-    this.film = film;
+  #element = null;
+  #film = null;
+  #comments = null;
+
+  constructor(film, comments) {
+    this.#film = film;
+    this.#comments = comments;
   }
 
-  getTemplate() {
-    return createPopupTemplate(this.film);
+  get template() {
+    return createPopupTemplate(this.#film, this.#comments);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     }
 
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }
