@@ -9,11 +9,12 @@ const MIN_HOURS_DURATION = 1;
 const MAX_HOURS_DURATION = 3;
 const MIN_MINUTES_DURATION = 10;
 const MAX_MINUTES_DURATION = 59;
-const MAX_HOUR_GAP = 100000;
 const MIN_COMMENTS = 1;
-const MAX_COMMENTS = 6;
-const MIN_COMMENTS_DATE = 10;
-const MAX_COMMENTS_DATE = 50;
+const MAX_COMMENTS = 20;
+const MIN_RANGE = 1;
+const MAX_RANGE = 50;
+
+let currentId = 0;
 
 const titles = [
   'Gladiator',
@@ -42,97 +43,70 @@ const posters = [
 
 const descriptionText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.';
 
-const emojis = [
-  'angry.png',
-  'puke.png',
-  'smile.png',
-  'sleeping.png',
-];
+const generateId = () => {
+  currentId++;
 
-const commentaryText = [
-  'Best!',
-  'Terrible!',
-  'Awesome!',
-  'Ugly!'
-];
-
-const commentaryAuthor = [
-  'John',
-  'Elly',
-  'Mary',
-  'Jane',
-  'Keanu'
-];
-
-const generateFilmTitle = () => {
-  const randomIndex = getRandomInteger(0, titles.length - 1);
-
-  return titles[randomIndex];
+  return currentId - 1;
 };
 
-const generateFilmRating = () => {
-  const filmRating = getRandomFraction(MIN_RATING, MAX_RATING, DECIMAL_RATING);
+const generateFilmTitle = () => titles[getRandomInteger(0, titles.length - 1)];
 
-  return filmRating;
-};
+const generateFilmRating = () => getRandomFraction(MIN_RATING, MAX_RATING, DECIMAL_RATING);
 
 const generateFilmYear = () => {
   const yearsGap = getRandomInteger(-MAX_YEAR_GAP, 0);
+  const date = dayjs().add(yearsGap, 'year').toDate();
 
-  return dayjs().add(yearsGap, 'year').toDate();
+  return dayjs(date).format('YYYY');
 };
 
-const generateFilmDuration = () => {
-  const filmDuration = `${getRandomInteger(MIN_HOURS_DURATION, MAX_HOURS_DURATION)  }h ${  getRandomInteger(MIN_MINUTES_DURATION, MAX_MINUTES_DURATION)  }m`;
+const generateFilmDuration = () => `${getRandomInteger(MIN_HOURS_DURATION, MAX_HOURS_DURATION)  }h ${  getRandomInteger(MIN_MINUTES_DURATION, MAX_MINUTES_DURATION)  }m`;
 
-  return filmDuration;
-};
+const generateFilmGenre = () => getRandomRangeFromArray(genres);
 
-const generateFilmGenre = () => {
-  const randomGenres = getRandomRangeFromArray(genres);
-
-  return randomGenres;
-};
-
-const generateFilmPoster = () => {
-  const randomIndex = getRandomInteger(0, posters.length - 1);
-
-  return posters[randomIndex];
-};
+const generateFilmPoster = () => posters[getRandomInteger(0, posters.length - 1)];
 
 const generateFilmDescription = () => {
   const descriptions = descriptionText.split('. ').map((i) => i.replace(/\.*$/,'.'));
-  const filmDescription = getRandomRangeFromArray(descriptions).join(' ');
 
-  return filmDescription;
+  return getRandomRangeFromArray(descriptions).join(' ');
 };
 
-const generateFilmCommentary = () => {
-  const randomCommentaryCount = getRandomInteger(MIN_COMMENTS, MAX_COMMENTS);
-  const commentaryDate = [];
-  const maxCommentsDateCount = getRandomInteger(MIN_COMMENTS_DATE, MAX_COMMENTS_DATE);
+const generateWatchingDate = () => {
+  const date = dayjs().toDate();
 
-  for (let i = 0; i <= maxCommentsDateCount; i++) {
-    const hourGap = getRandomInteger(-MAX_HOUR_GAP, 0);
-    dayjs().add(hourGap, 'minute').toDate();
-    const date = dayjs().add(hourGap, 'second').toDate();
-    commentaryDate[i] = dayjs(date).format('YYYY/MM/DD HH:mm:ss');
-    commentaryDate.push(commentaryDate[i]);
-  }
-
-  return {emojis, commentaryText, commentaryAuthor, commentaryDate, randomCommentaryCount};
+  return dayjs(date).format('YYYY/MM/DD');
 };
 
 export const generateFilm = () => ({
-  description: generateFilmDescription(),
-  title: generateFilmTitle(),
-  rating: generateFilmRating(),
-  poster: generateFilmPoster(),
-  release: generateFilmYear(),
-  duration: generateFilmDuration(),
-  genre: generateFilmGenre(),
-  comments: generateFilmCommentary(),
-  watchlist: Boolean(getRandomInteger(0, 1)),
-  alreadyWatched: Boolean(getRandomInteger(0, 1)),
-  favorite: Boolean(getRandomInteger(0, 1)),
+  id: generateId(),
+  comments: [...new Set(Array.from({length: getRandomInteger(MIN_COMMENTS, MAX_COMMENTS)}, () => getRandomInteger(MIN_RANGE, MAX_RANGE)))],
+  filmInfo: {
+    title: generateFilmTitle(),
+    alternativeTitle: generateFilmTitle(),
+    totalRating: generateFilmRating(),
+    poster: generateFilmPoster(),
+    ageRating: 0,
+    director: 'Tom Ford',
+    writers: [
+      'Takeshi Kitano'
+    ],
+    actors: [
+      'Morgan Freeman'
+    ],
+    release: {
+      date: generateFilmYear(),
+      releaseCountry: 'Finland'
+    },
+    runtime: generateFilmDuration(),
+    genre: generateFilmGenre(),
+    description: generateFilmDescription()
+  },
+  userDetails: {
+    watchlist: Boolean(getRandomInteger(0, 1)),
+    alreadyWatched:Boolean(getRandomInteger(0, 1)),
+    watchingDate: generateWatchingDate(),
+    favorite: Boolean(getRandomInteger(0, 1))
+  }
 });
+

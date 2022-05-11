@@ -1,13 +1,13 @@
 import {createElement} from 'Utils';
 
-const createShowMoreButtonTemplate = () => '<button class="films-list__show-more">Show more</button>';
+const createNoFilmsTemplate = () => (
+  `<h2 class="films-list__title">
+      There are no movies in our database
+  </h2>`
+);
 
-export default class ShowMoreButtonView {
+export default class NoFilmsView {
   #element = null;
-
-  get template() {
-    return createShowMoreButtonTemplate();
-  }
 
   get element() {
     if (!this.#element) {
@@ -17,8 +17,11 @@ export default class ShowMoreButtonView {
     return this.#element;
   }
 
+  get template() {
+    return createNoFilmsTemplate();
+  }
+
   removeElement() {
     this.#element = null;
   }
 }
-

@@ -9,7 +9,8 @@ import FilmsListSectionTopRatedView from 'Views/films-list-section-top-view.js';
 import FilmsListSectionMostCommentedView from 'Views/films-list-section-comment-view.js';
 import FilmsListContainerView from 'Views/films-list-container-view.js';
 import FilmView from 'Views/film-view.js';
-import CommentView from 'Views/comment-view.js';
+import NoFilmsView from './no-films-view.js';
+
 
 export {
   ShowMoreButtonView,
@@ -23,6 +24,6 @@ export {
   FilmsListSectionMostCommentedView,
   FilmsListSectionTopRatedView,
   FilmView,
-  CommentView
+  NoFilmsView
 };
 
