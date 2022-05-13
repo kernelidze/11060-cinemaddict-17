@@ -1,4 +1,4 @@
-import {createElement} from 'Utils';
+import AbstractView from 'Framework/view/abstract-view.js';
 
 const createPopupTemplate = (film, allComments) => {
   const {
@@ -166,12 +166,12 @@ const createPopupTemplate = (film, allComments) => {
   );
 };
 
-export default class PopupView {
-  #element = null;
+export default class PopupView extends AbstractView {
   #film = null;
   #comments = null;
 
   constructor(film, comments) {
+    super();
     this.#film = film;
     this.#comments = comments;
   }
@@ -180,15 +180,12 @@ export default class PopupView {
     return createPopupTemplate(this.#film, this.#comments);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
+  setPopupCloseClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.addEventListener('click', this.#popupCloseClickHandler);
+  };
 
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
-  }
+  #popupCloseClickHandler = () => {
+    this._callback.click();
+  };
 }

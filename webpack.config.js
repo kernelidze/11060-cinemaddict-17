@@ -20,6 +20,10 @@ module.exports = {
           test: /\.js$/,
           exclude: /(node_modules)/,
           use: ['babel-loader']
+        },
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader']
         }
     ]
   },
@@ -28,6 +32,7 @@ module.exports = {
       Views: path.resolve(__dirname, 'src/view/'),
       Presenters: path.resolve(__dirname, 'src/presenter/'),
       Utils: path.resolve(__dirname, 'src/utils/'),
+      Framework: path.resolve(__dirname, 'src/framework/'),
     },
   },
 };
