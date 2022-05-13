@@ -1,4 +1,4 @@
-import {createElement} from 'Utils';
+import AbstractView from 'Framework/view/abstract-view.js';
 
 const MAX_LENGTH = 140;
 const REGEXP = /.{1}$/;
@@ -61,11 +61,11 @@ const createFilmTemplate = (film) => {
   );
 };
 
-export default class FilmView {
-  #element = null;
+export default class FilmView extends AbstractView {
   #film = null;
 
   constructor(film) {
+    super();
     this.#film = film;
   }
 
@@ -73,15 +73,12 @@ export default class FilmView {
     return createFilmTemplate(this.#film);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
+  setFilmClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.addEventListener('click', this.#filmClickHandler);
+  };
 
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
-  }
+  #filmClickHandler = () => {
+    this._callback.click();
+  };
 }
