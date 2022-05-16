@@ -1,4 +1,4 @@
-import {render} from 'Framework/render.js';
+import {render, remove} from 'Framework/render.js';
 import {
   FilmView,
   ShowMoreButtonView,
@@ -7,9 +7,10 @@ import {
   FilmsListContainerView,
   FilmsListSectionMostCommentedView,
   FilmsListSectionTopRatedView,
-  PopupView,
   NoFilmsView
 } from 'Views';
+
+import PopupPresenter from 'Presenters/popup-presenter.js';
 
 const CARDS_EXTRA = 2;
 const FILMS_COUNT_PER_STEP = 5;
@@ -87,41 +88,16 @@ export default class FilmsBoardPresenter {
     this.#renderedFilmsCount += FILMS_COUNT_PER_STEP;
 
     if (this.#renderedFilmsCount >= this.#films.length) {
-      this.#showMoreButtonComponent.element.remove();
-      this.#showMoreButtonComponent.removeElement();
+      remove(this.#showMoreButtonComponent);
     }
   };
 
   #renderFilm = (film, comments) => {
     const filmComponent = new FilmView(film, comments);
-    const popupComponent = new PopupView(film, comments);
-
-    const openPopup = () => {
-      this.#container.appendChild(popupComponent.element);
-      document.body.classList.add('hide-overflow');
-    };
-
-    const closePopup = () => {
-      this.#container.removeChild(popupComponent.element);
-      document.body.classList.remove('hide-overflow');
-    };
-
-    const onEscKeydown = (evt) => {
-      if (evt.key === 'Escape' || evt.key === 'Esc') {
-        evt.preventDefault();
-        closePopup();
-        document.removeEventListener('keydown', onEscKeydown);
-      }
-    };
+    const popupPresenter = new PopupPresenter(film, comments);
 
     filmComponent.setFilmClickHandler(() => {
-      openPopup();
-      document.addEventListener('keydown', onEscKeydown);
-    });
-
-    popupComponent.setPopupCloseClickHandler(() => {
-      closePopup();
-      document.removeEventListener('keydown', onEscKeydown);
+      popupPresenter.renderPopup();
     });
 
     render(filmComponent, this.#filmsList.element);
