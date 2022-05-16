@@ -1,4 +1,4 @@
-import {SortView, FilterView, UserView} from 'Views';
+import {SortView, FiltersView, UserView} from 'Views';
 import FilmsBoardPresenter from 'Presenters/films-board-presenter.js';
 import {render} from 'Framework/render.js';
 import FilmsModel from 'Models/films-model.js';
@@ -14,7 +14,7 @@ const filmsBoardPresenter = new FilmsBoardPresenter(siteMainElement, filmsModel,
 const filters = generateFilter(filmsModel.films);
 
 render(new UserView(), siteMainElement);
-render(new FilterView(filters), siteMainElement);
+render(new FiltersView(filters), siteMainElement);
 render(new SortView(), siteMainElement);
 
 filmsBoardPresenter.init();
