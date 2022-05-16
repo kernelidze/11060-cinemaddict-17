@@ -1,4 +1,3 @@
-//import {createElement} from '../utils/render.js';
 import AbstractView from 'Framework/view/abstract-view.js';
 
 const createSortTemplate = () => (

@@ -33,6 +33,7 @@ module.exports = {
       Presenters: path.resolve(__dirname, 'src/presenter/'),
       Utils: path.resolve(__dirname, 'src/utils/'),
       Framework: path.resolve(__dirname, 'src/framework/'),
+      Models: path.resolve(__dirname, 'src/model/'),
     },
   },
 };
