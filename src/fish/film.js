@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
-import {getRandomInteger, getRandomFraction, getRandomRangeFromArray} from 'Utils';
+import {nanoid} from 'nanoid';
+import {getRandomInteger, getRandomFraction, getRandomRangeFromArray} from 'Utils/utils.js';
 
 const MIN_RATING = 0;
 const MAX_RATING = 10;
@@ -13,8 +14,6 @@ const MIN_COMMENTS = 1;
 const MAX_COMMENTS = 20;
 const MIN_RANGE = 1;
 const MAX_RANGE = 50;
-
-let currentId = 0;
 
 const titles = [
   'Gladiator',
@@ -42,12 +41,6 @@ const posters = [
 ];
 
 const descriptionText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.';
-
-const generateId = () => {
-  currentId++;
-
-  return currentId - 1;
-};
 
 const generateFilmTitle = () => titles[getRandomInteger(0, titles.length - 1)];
 
@@ -79,7 +72,7 @@ const generateWatchingDate = () => {
 };
 
 export const generateFilm = () => ({
-  id: generateId(),
+  id: nanoid(),
   comments: [...new Set(Array.from({length: getRandomInteger(MIN_COMMENTS, MAX_COMMENTS)}, () => getRandomInteger(MIN_RANGE, MAX_RANGE)))],
   filmInfo: {
     title: generateFilmTitle(),
