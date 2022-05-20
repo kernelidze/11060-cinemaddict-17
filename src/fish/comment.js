@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import {getRandomInteger} from 'Utils';
+import {getRandomInteger} from 'Utils/utils.js';
 
 const MAX_HOUR_GAP = 100000;
 let currentId = 0;

@@ -1,12 +1,10 @@
 import AbstractView from 'Framework/view/abstract-view.js';
 
-const getFirstLetterUppercase = (word) => word[0].toUpperCase() + word.slice(1);
-
 const createFilterTemplate = (filter) => {
   const {name, count} = filter;
 
   return (
-    `<a href="#${name}}" class="main-navigation__item">${getFirstLetterUppercase(name)} <span class="main-navigation__item-count">${count}</span></a>
+    `<a href="#${name.toLowerCase()}}" class="main-navigation__item">${name} <span class="main-navigation__item-count">${count}</span></a>
     `);
 };
 

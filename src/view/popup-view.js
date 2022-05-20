@@ -35,7 +35,7 @@ const createPopupTemplate = (film, allComments) => {
         </p>
       </div>
     </li>`
-  )).join('');
+  )).join('');/* []; */
 
   const genresList = genre.map((el) => (`
     <span class="film-details__genre">${el}</span>`
@@ -181,11 +181,41 @@ export default class PopupView extends AbstractView {
   }
 
   setPopupCloseClickHandler = (callback) => {
-    this._callback.click = callback;
+    this._callback.popupCloseClick = callback;
     this.element.querySelector('.film-details__close-btn').addEventListener('click', this.#popupCloseClickHandler);
   };
 
   #popupCloseClickHandler = () => {
-    this._callback.click();
+    this._callback.popupCloseClick();
+  };
+
+  setPopupFavoriteClickHandler = (callback) => {
+    this._callback.popupFavoriteClick = callback;
+    this.element.querySelector('.film-details__control-button--favorite').addEventListener('click', this.#popupFavoriteClickHandler);
+  };
+
+  setPopupWatchlistClickHandler = (callback) => {
+    this._callback.popupWatchlistClick = callback;
+    this.element.querySelector('.film-details__control-button--watchlist').addEventListener('click', this.#popupWatchlistClickHandler);
+  };
+
+  setPopupWatchedClickHandler = (callback) => {
+    this._callback.popupWatchedClick = callback;
+    this.element.querySelector('.film-details__control-button--watched').addEventListener('click', this.#popupWatchedClickHandler);
+  };
+
+  #popupFavoriteClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.popupFavoriteClick();
+  };
+
+  #popupWatchlistClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.popupWatchlistClick();
+  };
+
+  #popupWatchedClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.popupWatchedClick();
   };
 }

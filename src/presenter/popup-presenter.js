@@ -36,5 +36,4 @@ export default class PopupPresenter {
       document.removeEventListener('keydown', onEscKeydown);
     });
   };
-
 }
