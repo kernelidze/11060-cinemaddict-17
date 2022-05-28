@@ -81,7 +81,7 @@ export default class FilmPresenter {
   #handleInputClick = () => {
   };
 
-  #handleDeleteCommentClick = (id) => {
+  #handleDeleteCommentClick = () => {
   };
 
   #handleFilmClick = () => {
