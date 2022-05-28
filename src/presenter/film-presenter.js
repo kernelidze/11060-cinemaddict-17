@@ -112,14 +112,20 @@ export default class FilmPresenter {
   };
 
   #handleFavoriteClick = () => {
+    const scrollValue = this.#popupComponent.element.scrollTop;
     this.#changeData({...this.#film, userDetails: { ...this.#film.userDetails, favorite: !this.#film.userDetails.favorite}});
+    this.#popupComponent.element.scrollTop = scrollValue;
   };
 
   #handleWatchlistClick = () => {
+    const scrollValue = this.#popupComponent.element.scrollTop;
     this.#changeData({...this.#film, userDetails: { ...this.#film.userDetails, watchlist: !this.#film.userDetails.watchlist}});
+    this.#popupComponent.element.scrollTop = scrollValue;
   };
 
   #handleWatchedClick = () => {
+    const scrollValue = this.#popupComponent.element.scrollTop;
     this.#changeData({...this.#film, userDetails: { ...this.#film.userDetails, alreadyWatched: !this.#film.userDetails.alreadyWatched}});
+    this.#popupComponent.element.scrollTop = scrollValue;
   };
 }

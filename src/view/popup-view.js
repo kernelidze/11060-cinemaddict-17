@@ -170,7 +170,6 @@ const createPopupTemplate = (film, allComments, emotion) => {
 export default class PopupView extends AbstractStatefulView {
   #film = null;
   #comments = null;
-  #scrollValue = null;
 
   constructor(film, comments) {
     super();
@@ -180,7 +179,6 @@ export default class PopupView extends AbstractStatefulView {
       emotion: null,
     };
     this.#setInnerHandlers();
-    this.#getScrollValue();
   }
 
   get template() {
@@ -207,13 +205,9 @@ export default class PopupView extends AbstractStatefulView {
     this.setPopupWatchedClickHandler(this._callback.popupWatchedClick);
   };
 
-  #getScrollValue = () => {
-    this.element.addEventListener('scroll', () => {
-      this.#scrollValue = this.element.scrollTop;
-    });
-  };
-
   #changeEmotionHandler = (evt) => {
+    const scrollValue = this.element.scrollTop;
+
     this.updateElement({
       emotion: evt.target.value,
     });
@@ -224,7 +218,7 @@ export default class PopupView extends AbstractStatefulView {
 
     evt.target.checked = true;
 
-    this.element.scrollTop = this.#scrollValue;
+    this.element.scrollTop = scrollValue;
   };
 
   setCreateNewCommentHandler = (callback) => {
