@@ -37,4 +37,8 @@ const updateItem = (items, update) => {
   ];
 };
 
-export {getRandomInteger, getRandomFraction, getRandomRangeFromArray, updateItem};
+const getSortByDate = (films) =>  films.sort((a, b) => a.filmInfo.release.date < b.filmInfo.release.date ? 1 : -1);
+
+const getSortByRating = (films) =>  films.sort((a, b) => a.filmInfo.totalRating < b.filmInfo.totalRating ? 1 : -1);
+
+export {getRandomInteger, getRandomFraction, getRandomRangeFromArray, updateItem, getSortByDate, getSortByRating};
