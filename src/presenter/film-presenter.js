@@ -6,11 +6,14 @@ const Mode = {
   OPENED: 'OPENED'
 };
 
+let scrollValue = null;
+
 export default class FilmPresenter {
   #filmsListContainer = null;
   #filmComponent = null;
   #popupComponent = null;
   #film = null;
+  #comments = null;
   #changeData = null;
   #changePopup = null;
   #mode = Mode.CLOSED;
@@ -23,6 +26,7 @@ export default class FilmPresenter {
 
   init = (film, comments) => {
     this.#film = film;
+    this.#comments = comments;
 
     const prevFilmComponent = this.#filmComponent;
     const prevPopupComponent = this.#popupComponent;
@@ -41,6 +45,10 @@ export default class FilmPresenter {
     this.#popupComponent.setPopupWatchedClickHandler(this.#handleWatchedClick);
 
     this.#popupComponent.setPopupCloseClickHandler(this.#handlePopupClose);
+
+    this.#popupComponent.setCommentDeleteButtonClickHandler(this.#handleDeleteCommentClick);
+
+    this.#popupComponent.setCreateNewCommentHandler(this.#handleInputClick);
 
     if (prevFilmComponent === null || prevPopupComponent === null) {
       render(this.#filmComponent, this.#filmsListContainer);
@@ -66,8 +74,16 @@ export default class FilmPresenter {
 
   resetView = () => {
     if (this.#mode !== Mode.CLOSED) {
+      this.#popupComponent.reset();
       this.#closePopup();
     }
+  };
+
+
+  #handleInputClick = () => {
+  };
+
+  #handleDeleteCommentClick = () => {
   };
 
   #handleFilmClick = () => {
@@ -88,6 +104,7 @@ export default class FilmPresenter {
   #onEscKeydown = (evt) => {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
+      this.#popupComponent.reset();
       this.#closePopup();
     }
   };
@@ -97,14 +114,20 @@ export default class FilmPresenter {
   };
 
   #handleFavoriteClick = () => {
+    scrollValue = this.#popupComponent.element.scrollTop;
     this.#changeData({...this.#film, userDetails: { ...this.#film.userDetails, favorite: !this.#film.userDetails.favorite}});
+    this.#popupComponent.element.scrollTop = scrollValue;
   };
 
   #handleWatchlistClick = () => {
+    scrollValue = this.#popupComponent.element.scrollTop;
     this.#changeData({...this.#film, userDetails: { ...this.#film.userDetails, watchlist: !this.#film.userDetails.watchlist}});
+    this.#popupComponent.element.scrollTop = scrollValue;
   };
 
   #handleWatchedClick = () => {
+    scrollValue = this.#popupComponent.element.scrollTop;
     this.#changeData({...this.#film, userDetails: { ...this.#film.userDetails, alreadyWatched: !this.#film.userDetails.alreadyWatched}});
+    this.#popupComponent.element.scrollTop = scrollValue;
   };
 }
