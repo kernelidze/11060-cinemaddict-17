@@ -2,7 +2,7 @@ import AbstractStatefulView from 'Framework/view/abstract-stateful-view.js';
 import NewCommentView from 'Views/new-comment-view.js';
 import {render} from 'Framework/render.js';
 
-const createPopupTemplate = (film, allComments, emotion) => {
+const createPopupTemplate = (film, allComments, emotion, text) => {
   const {
     filmInfo: {
       title,
@@ -135,7 +135,7 @@ const createPopupTemplate = (film, allComments, emotion) => {
             </div>
 
             <label class="film-details__comment-label">
-              <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
+              <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${text ? text : ''}</textarea>
             </label>
 
             <div class="film-details__emoji-list">
@@ -175,24 +175,29 @@ export default class PopupView extends AbstractStatefulView {
     super();
     this.#film = film;
     this.#comments = comments;
+
     this._state = {
       emotion: null,
+      text: null
     };
+
     this.#setInnerHandlers();
   }
 
   get template() {
-    return createPopupTemplate(this.#film, this.#comments, this._state.emotion);
+    return createPopupTemplate(this.#film, this.#comments, this._state.emotion, this._state.text);
   }
 
   reset = () => {
     this.updateElement({
-      emotion: null
+      emotion: null,
+      text: null
     });
   };
 
   #setInnerHandlers = () => {
     this.element.querySelector('.film-details__emoji-list').addEventListener('change', this.#changeEmotionHandler);
+    this.element.querySelector('.film-details__comment-input').addEventListener('input', this.#changeTextInputHandler);
   };
 
   _restoreHandlers = () => {
@@ -221,6 +226,12 @@ export default class PopupView extends AbstractStatefulView {
     this.element.scrollTop = scrollValue;
   };
 
+  #changeTextInputHandler = (evt) => {
+    this._setState({
+      text: evt.target.value,
+    });
+  };
+
   setCreateNewCommentHandler = (callback) => {
     this._callback.createNewComment = callback;
     this.element.querySelector('.film-details__comment-input').addEventListener('keydown', this.#createNewCommentHandler);
@@ -229,10 +240,8 @@ export default class PopupView extends AbstractStatefulView {
   #createNewCommentHandler = (evt) => {
     this._callback.createNewComment();
 
-    const text = evt.target.value;
-
     if (evt.ctrlKey && evt.keyCode === 13) {
-      const newCommentComponent = new NewCommentView(text, this._state.emotion);
+      const newCommentComponent = new NewCommentView(this._state.text, this._state.emotion);
 
       render(newCommentComponent, this.element.querySelector('.film-details__comments-list'));
     }
@@ -261,7 +270,6 @@ export default class PopupView extends AbstractStatefulView {
   #popupCloseClickHandler = () => {
     this._callback.popupCloseClick();
   };
-
 
   setPopupFavoriteClickHandler = (callback) => {
     this._callback.popupFavoriteClick = callback;

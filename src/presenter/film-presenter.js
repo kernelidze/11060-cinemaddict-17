@@ -74,7 +74,7 @@ export default class FilmPresenter {
 
   resetView = () => {
     if (this.#mode !== Mode.CLOSED) {
-      this.#popupComponent.reset();
+      this.#popupComponent.reset(); // не работает
       this.#closePopup();
     }
   };
@@ -95,6 +95,7 @@ export default class FilmPresenter {
   };
 
   #closePopup = () => {
+    //this.#popupComponent.reset();/////// пришлось ставить сюда ресет
     document.querySelector('.main').removeChild(this.#popupComponent.element);
     document.body.classList.remove('hide-overflow');
     document.removeEventListener('keydown', this.#onEscKeydown);
@@ -104,7 +105,7 @@ export default class FilmPresenter {
   #onEscKeydown = (evt) => {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
-      this.#popupComponent.reset();
+      //this.#popupComponent.reset();///////
       this.#closePopup();
     }
   };
